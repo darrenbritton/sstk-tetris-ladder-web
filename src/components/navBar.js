@@ -9,21 +9,11 @@ import { Flex, Box } from 'grid-styled';
 import { display } from '../actions';
 import { push } from 'react-router-redux';
 
-import ReactCountdownClock from 'react-countdown-clock';
-
 const HeroText = styled.a`
     font-family: 'Montserrat';
     font-size: 2em;
     color: #fff;
     text-decoration: none;
-`;
-
-const ActionWrapper = styled(Box)`
-  .react-countdown-clock {
-    position: fixed;
-    right: 25px;
-    top: 90px;
-  }
 `;
 
 class NavBar extends Component {
@@ -38,9 +28,9 @@ class NavBar extends Component {
             <Box>
               <HeroText href="/">SSTK Tetris</HeroText>
             </Box>
-            <ActionWrapper mt='10px'>
+            <Box mt='10px'>
               {buttons}
-            </ActionWrapper>
+            </Box>
           </Flex>
         </Toolbar>
       </AppBar>

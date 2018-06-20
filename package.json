@@ -9,14 +9,11 @@
     "history": "^4.7.2",
     "primus": "^7.2.0",
     "react": "^16.3.2",
-    "react-chat-window": "^1.0.8",
-    "react-countdown-clock": "^2.4.0",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.4",
-    "react-swipeable-views": "^0.12.13",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
@@ -26,7 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "lint": "eslint src --fix && eslint src",
-    "test": "react-scripts test --env=jsdom",
+    "test": "echo 'skipping tests'",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
