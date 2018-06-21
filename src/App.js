@@ -13,6 +13,12 @@ import Challenges from './containers/challenges';
 import NavBar from './components/navBar';
 import SnackBar from './components/snackBar';
 
+const loggedInOnlyPaths = [
+  'leaderboard',
+  'challenges',
+  'games'
+];
+
 
 class App extends Component {
   constructor(props) {
@@ -24,7 +30,7 @@ class App extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if ((Object.keys(nextProps.player).length > 0) !== prevState.loggedIn) {
-      if (!prevState.loggedIn && !nextProps.location.pathname.includes('game')) {
+      if (!prevState.loggedIn && !loggedInOnlyPaths.find(path => nextProps.location.pathname.includes(path))) {
         nextProps.loggedIn();
         return { loggedIn: !prevState.loggedIn };
       }
