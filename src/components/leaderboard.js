@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import {bindActionCreators} from "redux";
+
 import { connect } from 'react-redux';
 import { Flex, Box } from 'grid-styled';
+import styled from 'styled-components';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +16,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+
+import { player } from '../actions';
+
+const Root = styled(Flex)`
+    width: 100%;
+    overflow-x: auto;
+`;
 
 class Leaderboard extends Component {
   state = {
@@ -27,33 +37,38 @@ class Leaderboard extends Component {
     this.setState({ anchorEl: null });
   };
 
+  challenge = (id) => {
+    this.setState({ anchorEl: null });
+    this.props.challenge({ opponent: id});
+  };
+
   render() {
     return (
-      <Flex flexDirection='column'>
-        <Box m="auto" mt="15vh" style={{maxWidth: '100vw'}}>
+      <Root flexDirection='column'>
+        <Box m="auto" mt="15vh">
           <Paper>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Avatar</TableCell>
-                    <TableCell>Username</TableCell>
-                    <TableCell>Rank</TableCell>
-                  <TableCell>Games Played</TableCell>
+                    <TableCell padding='dense'>Avatar</TableCell>
+                    <TableCell padding='dense'>Username</TableCell>
+                    <TableCell padding='dense'>Rank</TableCell>
+                  <TableCell padding='dense'>Games Played</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {this.props.leaderboard.map(p => {
                     return (
                       <TableRow key={p._id}>
-                        <TableCell component="th" scope="row">
+                        <TableCell padding='dense'>
                           <Avatar alt={p.username} src={p.photo} />
                         </TableCell>
-                        <TableCell>
+                        <TableCell padding='dense'>
                           {p.username}
                         </TableCell>
-                        <TableCell>{p.rank}</TableCell>
-                        <TableCell>{p.gamesPlayed}</TableCell>
-                        <TableCell>
+                        <TableCell padding='dense'>{p.rank}</TableCell>
+                        <TableCell padding='dense'>{p.gamesPlayed}</TableCell>
+                        <TableCell padding='none'>
                             <IconButton
                               aria-label="More"
                               aria-owns={this.state.anchorEl ? 'long-menu' : null}
@@ -68,7 +83,7 @@ class Leaderboard extends Component {
                               open={Boolean(this.state.anchorEl)}
                               onClose={this.handleClose}
                             >
-                              <MenuItem onClick={this.handleClose}>
+                              <MenuItem onClick={ () => this.challenge(p._id)}>
                                 Challenge
                               </MenuItem>
                               <MenuItem onClick={this.handleClose}>
@@ -83,7 +98,7 @@ class Leaderboard extends Component {
               </Table>
           </Paper>
         </Box>
-      </Flex>
+      </Root>
     );
   }
 }
@@ -92,7 +107,11 @@ const mapStateToProps = state => ({
   leaderboard: state.leaderboard
 });
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+  challenge: player.challenge
+}, dispatch);
+
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(Leaderboard);

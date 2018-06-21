@@ -8,6 +8,7 @@ import constants from './constants';
 
 import Home from './containers/home';
 import LoggedOut from './containers/loggedOut';
+import Challenges from './containers/challenges';
 
 import NavBar from './components/navBar';
 import SnackBar from './components/snackBar';
@@ -47,6 +48,7 @@ class App extends Component {
         <main>
           <Route exact path="/leaderboard" component={Home} />
           <Route exact path="/logged-out" component={LoggedOut} />
+          <Route exact path="/challenges" component={Challenges} />
           <Route path="/login" component={() => { window.location = `//${constants.serverUrl}/auth/google`; }} />
           <Route path="/logout" component={() => { window.location = `//${constants.serverUrl}/logout`; }} />
         </main>

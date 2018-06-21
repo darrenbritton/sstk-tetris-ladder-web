@@ -8,6 +8,16 @@ import styled from 'styled-components';
 import { Flex, Box } from 'grid-styled';
 import { display } from '../actions';
 import { push } from 'react-router-redux';
+import MenuIcon from '@material-ui/icons/Menu';
+import StarIcon from '@material-ui/icons/Stars';
+import ChallengeIcon from '@material-ui/icons/ChatBubble';
+import LogoutIcon from '@material-ui/icons/Lock';
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const HeroText = styled.a`
     font-family: 'Montserrat';
@@ -16,24 +26,85 @@ const HeroText = styled.a`
     text-decoration: none;
 `;
 
+const Fab = styled.div`
+  position: fixed;
+  bottom: 5vh;
+  right: 5vh;
+`
+
 class NavBar extends Component {
+  state = {
+    drawer: false
+  };
+
+  toggleDrawer = (open) => () => {
+    this.setState({
+      drawer: open,
+    });
+  };
+
   render() {
-    const buttons = [];
-    buttons.push(<Button key='view-players' onClick={() => this.props.togglePlayerDrawer()} color="inherit">View Players</Button>);
-    buttons.push(<Button key='logout' href="/logout" color="inherit">Logout</Button>);
     return (
-      <AppBar position="static">
-        <Toolbar>
-          <Flex w='100%' justifyContent='space-between'>
-            <Box>
-              <HeroText href="/">SSTK Tetris</HeroText>
-            </Box>
-            <Box mt='10px'>
-              {buttons}
-            </Box>
-          </Flex>
-        </Toolbar>
-      </AppBar>
+      <Flex>
+        <AppBar position="static">
+          <Toolbar>
+            <Flex justifyContent='space-between'>
+              <Box>
+                <HeroText href="/">SSTK Tetris</HeroText>
+              </Box>
+            </Flex>
+          </Toolbar>
+        </AppBar>
+        <Fab>
+          <Button
+            variant="fab" color="primary"
+            aria-label="More"
+            aria-owns={this.state.anchorEl ? 'long-menu' : null}
+            aria-haspopup="true"
+            onClick={this.toggleDrawer(true)}
+          >
+            <MenuIcon/>
+          </Button>
+          <Drawer
+            anchor="bottom"
+            open={this.state.drawer}
+            onClose={this.toggleDrawer(false)}
+          >
+            <div
+              tabIndex={0}
+              role="button"
+              onClick={this.toggleDrawer(false)}
+              onKeyDown={this.toggleDrawer(false)}
+            >
+              <List>
+                <ListItem button onClick={() => this.props.changePage('leaderboard')}>
+                  <ListItemIcon>
+                    <StarIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Leaderboard" />
+                </ListItem>
+              </List>
+              <List>
+                <ListItem button onClick={() => this.props.changePage('challenges')}>
+                  <ListItemIcon>
+                    <ChallengeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Challenges" />
+                </ListItem>
+              </List>
+              <Divider />
+              <List>
+                <ListItem button onClick={() => this.props.changePage('logout')}>
+                  <ListItemIcon>
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </ListItem>
+              </List>
+            </div>
+          </Drawer>
+        </Fab>
+      </Flex>
     );
   }
 }
@@ -44,7 +115,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  changePage: () => push('/about-us'),
+  changePage: (page) => push(`/${page}`),
   togglePlayerDrawer: display.togglePlayerDrawer,
 }, dispatch);
 

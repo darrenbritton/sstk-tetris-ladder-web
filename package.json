@@ -1,7 +1,6 @@
 {
   "name": "sstk-tetris-ladder-web",
   "version": "0.1.0",
-  "homepage": "https://darrenbritton.com/sstk-tetris-ladder-web",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.0.0",
