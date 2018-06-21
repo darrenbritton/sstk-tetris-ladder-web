@@ -1,4 +1,3 @@
-import { primus } from '../store';
 
 export const PERSIST_PLAYER = 'persist-player';
 export const PERSIST_LEADERBOARD = 'persist-leaderboard';

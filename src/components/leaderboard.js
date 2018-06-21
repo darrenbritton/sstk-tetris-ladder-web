@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Flex, Box } from 'grid-styled';
-import styled from 'styled-components';
-import theme from '../utils/theme';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -16,42 +13,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-
-const FormTab = styled(Box)`
-  min-width: 52vw;
-  margin: 0 20px;
-  
-  & > div > div, button {
-    width: 100%;
-    margin: auto;
-  }
-  button {
-    margin-bottom: 3vh;
-  }
-`;
-
-const LobbyTab = styled(Box)`
-  min-width: 52vw;
-  max-width: 90vw;
-  overflow-x: scroll;
-  
-  @media (min-width: ${theme.scrollWidth}px) {
-    ::-webkit-scrollbar {
-      width: 0px;
-    }
-  }
-`;
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 
 class Leaderboard extends Component {
   state = {
