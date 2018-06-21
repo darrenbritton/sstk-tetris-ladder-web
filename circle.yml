@@ -12,5 +12,6 @@ deployment:
     branch: master
     commands:
       - npm run build
+      - cp build/index.html build/200.html
       - git config --global user.email "deploy@circleci.com" && git config --global user.name "Circle CI"
       - npm run deploy
