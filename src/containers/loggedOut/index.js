@@ -25,9 +25,8 @@ const HeroText = styled.p`
     height: 3.5em;
     font-size: 4em;
     text-align: center;
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-    background-image: url(/animation.gif);
+    color: #fff;
+    -webkit-text-stroke: 3px black;
 `;
 
 class LoggedOut extends Component {
