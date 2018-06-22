@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 
 const Wrapper = styled.div`
   height: 100vh;
-  background: url("/background.png");
+  background: url("/background.jpg");
 `;
 
 const ButtonIcon = styled.img`
