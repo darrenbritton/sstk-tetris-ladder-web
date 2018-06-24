@@ -42,21 +42,13 @@ const StyledButton = styled(Button)`
 
 
 class Challenges extends Component {
-  state = {
-    anchorEl: null,
+
+  acceptChallenge = (id) => {
+    this.props.acceptChallenge({id});
   };
 
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  challenge = (id) => {
-    this.setState({ anchorEl: null });
-    this.props.challenge({ opponent: id});
+  rejectChallenge = (id) => {
+    this.props.rejectChallenge({id});
   };
 
   render() {
@@ -70,14 +62,14 @@ class Challenges extends Component {
             <List>
                 {this.props.challenges.received.map(c => {
                   return (
-                    <ListItem>
+                    <ListItem key={c._id}>
                       <Avatar alt={c.challenger.username} src={c.challenger.photo} />
                       <ListItemText primary={c.challenger.username} />
                       <ListItemSecondaryAction>
-                        <StyledButton size="small" variant="contained" color="primary">
+                        <StyledButton size="small" variant="contained" color="primary" onClick={() => this.acceptChallenge(c._id)}>
                           Accept
                         </StyledButton>
-                        <StyledButton size="small" variant="contained" color="secondary">
+                        <StyledButton size="small" variant="contained" color="secondary" onClick={() => this.rejectChallenge(c._id)}>
                           Reject
                         </StyledButton>
                       </ListItemSecondaryAction>
@@ -94,9 +86,8 @@ class Challenges extends Component {
           <StyledPaper>
             <List>
               {this.props.challenges.sent.map(c => {
-                console.log(c)
                 return (
-                  <ListItem>
+                  <ListItem key={c._id}>
                     <Avatar alt={c.opponent.username} src={c.opponent.photo} />
                     <ListItemText primary={c.opponent.username} />
                     <ListItemSecondaryAction>
@@ -118,7 +109,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  challenge: player.challenge
+  challenge: player.challenge,
+  acceptChallenge: player.acceptChallenge,
+  rejectChallenge: player.rejectChallenge
 }, dispatch);
 
 export default connect(

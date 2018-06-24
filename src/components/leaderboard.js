@@ -38,7 +38,7 @@ class Leaderboard extends Component {
   };
 
   challenge = (id) => {
-    this.setState({ anchorEl: null });
+    this.handleClose();
     this.props.challenge({ opponent: id});
   };
 
@@ -73,6 +73,7 @@ class Leaderboard extends Component {
                               aria-label="More"
                               aria-owns={this.state.anchorEl ? 'long-menu' : null}
                               aria-haspopup="true"
+                              data-id={p._id}
                               onClick={this.handleClick}
                             >
                               <MoreVertIcon />
@@ -83,7 +84,7 @@ class Leaderboard extends Component {
                               open={Boolean(this.state.anchorEl)}
                               onClose={this.handleClose}
                             >
-                              <MenuItem onClick={ () => this.challenge(p._id)}>
+                              <MenuItem onClick={() => this.challenge(this.state.anchorEl.dataset.id)}>
                                 Challenge
                               </MenuItem>
                               <MenuItem onClick={this.handleClose}>

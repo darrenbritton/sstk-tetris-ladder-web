@@ -11,6 +11,7 @@ import { push } from 'react-router-redux';
 import MenuIcon from '@material-ui/icons/Menu';
 import StarIcon from '@material-ui/icons/Stars';
 import ChallengeIcon from '@material-ui/icons/ChatBubble';
+import GameIcon from '@material-ui/icons/VideogameAsset';
 import LogoutIcon from '@material-ui/icons/Lock';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
@@ -32,6 +33,8 @@ const Fab = styled.div`
   right: 5vh;
 `
 
+const pageLinks = [{label: 'Leaderboard', icon: (<StarIcon/>)}, {label:'Challenges', icon: (<ChallengeIcon/>) }, {label: 'Games', icon: (<GameIcon/>) }];
+
 class NavBar extends Component {
   state = {
     drawer: false
@@ -41,6 +44,17 @@ class NavBar extends Component {
     this.setState({
       drawer: open,
     });
+  };
+
+  pageListFragments = () => {
+    return pageLinks.map(link =>
+      <ListItem key={link.label} button onClick={() => this.props.changePage(link.label.toLowerCase())}>
+        <ListItemIcon>
+          {link.icon}
+        </ListItemIcon>
+        <ListItemText primary={link.label} />
+      </ListItem>
+    );
   };
 
   render() {
@@ -77,22 +91,9 @@ class NavBar extends Component {
               onKeyDown={this.toggleDrawer(false)}
             >
               <List>
-                <ListItem button onClick={() => this.props.changePage('leaderboard')}>
-                  <ListItemIcon>
-                    <StarIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Leaderboard" />
-                </ListItem>
+                {this.pageListFragments()}
               </List>
-              <List>
-                <ListItem button onClick={() => this.props.changePage('challenges')}>
-                  <ListItemIcon>
-                    <ChallengeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Challenges" />
-                </ListItem>
-              </List>
-              <Divider />
+              <Divider/>
               <List>
                 <ListItem button onClick={() => this.props.changePage('logout')}>
                   <ListItemIcon>

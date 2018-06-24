@@ -9,6 +9,7 @@ import constants from './constants';
 import Home from './containers/home';
 import LoggedOut from './containers/loggedOut';
 import Challenges from './containers/challenges';
+import Games from './containers/games';
 
 import NavBar from './components/navBar';
 import SnackBar from './components/snackBar';
@@ -29,12 +30,16 @@ class App extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if ((Object.keys(nextProps.player).length > 0) !== prevState.loggedIn) {
+    if (!!nextProps.player.id !== prevState.loggedIn) {
       if (!prevState.loggedIn && !loggedInOnlyPaths.find(path => nextProps.location.pathname.includes(path))) {
         nextProps.loggedIn();
-        return { loggedIn: !prevState.loggedIn };
+
       }
-      nextProps.loggedOut();
+      if (!nextProps.player.id) {
+        nextProps.loggedOut();
+        return { loggedIn: false };
+      }
+      return { loggedIn: !prevState.loggedIn };
     } else if (Object.keys(nextProps.player).length > 0) {
       return { loggedIn: true };
     }
@@ -42,9 +47,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (!this.state.loggedIn
-      && this.props.location
-      && this.props.location.pathname !== '/logged-out') this.props.loggedOut();
+    setTimeout(() => {
+      if (!this.props.player.id
+        && this.props.location
+        && this.props.location.pathname !== '/logged-out') {
+        this.props.loggedOut();
+        location.reload(); // eslint-disable-line
+      }
+    },600);
   }
 
   render() {
@@ -55,6 +65,7 @@ class App extends Component {
           <Route exact path="/leaderboard" component={Home} />
           <Route exact path="/logged-out" component={LoggedOut} />
           <Route exact path="/challenges" component={Challenges} />
+          <Route exact path="/games" component={Games} />
           <Route path="/login" component={() => { window.location = `//${constants.serverUrl}/auth/google`; }} />
           <Route path="/logout" component={() => { window.location = `//${constants.serverUrl}/logout`; }} />
         </main>

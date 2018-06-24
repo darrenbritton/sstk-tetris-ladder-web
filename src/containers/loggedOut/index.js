@@ -5,8 +5,11 @@ import { Flex, Box } from 'grid-styled';
 import Button from '@material-ui/core/Button';
 
 const Wrapper = styled.div`
-  height: 100vh;
+  position: absolute;
+  height: 100%;
   background: url("/background.jpg");
+  width: 100%;
+  overflow: hidden;
 `;
 
 const ButtonIcon = styled.img`
@@ -23,7 +26,7 @@ const TiltedBox = styled(Box)`
 const HeroText = styled.p`
     font-family: 'Montserrat';
     height: 3.5em;
-    font-size: 4em;
+    font-size: 3em;
     text-align: center;
     color: #fff;
     -webkit-text-stroke: 3px black;
@@ -37,7 +40,7 @@ class LoggedOut extends Component {
           <TiltedBox m="auto" mt="25vh">
             <HeroText>Shutterstock<br/>Tetris</HeroText>
           </TiltedBox>
-          <Box m="auto" mt="4vh">
+          <Box m="auto" mt="3vh">
             <Button href="/login" variant="raised" color="primary">
               Login With <ButtonIcon src="/googleLogo.svg" />
             </Button>
