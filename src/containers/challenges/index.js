@@ -36,6 +36,12 @@ const StyledTypography = styled(Typography)`
   color: #fff  !important;
 `;
 
+const EmptyText = styled(Typography)`
+  text-align: center;
+  margin-top: 30px !important;
+  margin-bottom: 30px !important;
+`
+
 const StyledButton = styled(Button)`
   margin-right: 10px !important;
 `;
@@ -60,22 +66,27 @@ class Challenges extends Component {
           </StyledTypography>
           <StyledPaper>
             <List>
-                {this.props.challenges.received.map(c => {
-                  return (
-                    <ListItem key={c._id}>
-                      <Avatar src={c.challenger.photo} />
-                      <ListItemText primary={c.challenger.username} />
-                      <ListItemSecondaryAction>
-                        <StyledButton size="small" variant="contained" color="primary" onClick={() => this.acceptChallenge(c._id)}>
-                          Accept
-                        </StyledButton>
-                        <StyledButton size="small" variant="contained" color="secondary" onClick={() => this.rejectChallenge(c._id)}>
-                          Reject
-                        </StyledButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  );
-                })}
+              {this.props.challenges.received.map(c => {
+                return (
+                  <ListItem key={c._id}>
+                    <Avatar src={c.challenger.photo} />
+                    <ListItemText primary={c.challenger.username} />
+                    <ListItemSecondaryAction>
+                      <StyledButton size="small" variant="contained" color="primary" onClick={() => this.acceptChallenge(c._id)}>
+                        Accept
+                      </StyledButton>
+                      <StyledButton size="small" variant="contained" color="secondary" onClick={() => this.rejectChallenge(c._id)}>
+                        Reject
+                      </StyledButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
+              {this.props.challenges.received.length === 0 &&
+                <EmptyText variant="body2">
+                  You don't currently have any open challenges
+                </EmptyText>
+              }
             </List>
           </StyledPaper>
         </Box>
@@ -96,6 +107,11 @@ class Challenges extends Component {
                   </ListItem>
                 );
               })}
+              {this.props.challenges.sent.length === 0 &&
+                <EmptyText variant="body2">
+                  You haven't sent any challenges that are still pending
+                </EmptyText>
+              }
             </List>
           </StyledPaper>
         </Box>

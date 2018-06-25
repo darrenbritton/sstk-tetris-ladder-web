@@ -132,7 +132,7 @@ class PlayDialog extends React.Component {
           </div>
         }
         {
-          this.props.playing.inProgress && this.props.playing.winner && this.props.playing.confirm &&
+          this.props.playing.inProgress && this.props.playing.winner && this.props.playing.waitingForConfirmationFrom === this.props.player.id &&
           <div>
             <DialogTitle id="alert-dialog-slide-title">
               {`${this.props.playing.challenger === this.props.player.id ?
@@ -155,7 +155,7 @@ class PlayDialog extends React.Component {
           </div>
         }
         {
-          this.props.playing.inProgress && this.props.playing.winner && !this.props.playing.confirm &&
+          this.props.playing.inProgress && this.props.playing.winner && this.props.playing.waitingForConfirmationFrom !== this.props.player.id &&
           <div>
             <DialogTitle id="alert-dialog-slide-title">
               {`waiting for opponent to confirm result`}

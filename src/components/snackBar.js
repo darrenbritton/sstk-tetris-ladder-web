@@ -1,6 +1,7 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import {push} from "react-router-redux";
 import { withStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
@@ -56,8 +57,14 @@ class SnackBar extends React.Component {
 
   handleAction = (action) => {
     switch (action) {
-      case 'chat.send':
-        this.props.sendMessage({text: 'hello world!'});
+      case 'challenge.view':
+        this.props.changePage('challenges');
+        break;
+      case 'game.view':
+        this.props.changePage('games');
+        break;
+      case 'leaderboard.view':
+        this.props.changePage('leaderboard');
         break;
       default:
         return true;
@@ -87,7 +94,7 @@ class SnackBar extends React.Component {
           }}
           message={<span id="message-id">{text}</span>}
           action={[
-            <Button key="undo" color="secondary" size="small" onClick={() => this.handleAction(action)}>
+            <Button key="goTo" color="secondary" size="small" onClick={() => this.handleAction(action)}>
               {actionText || ''}
             </Button>,
             <IconButton
@@ -112,6 +119,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   notificationClear: notify.clear,
+  changePage: (page) => push(`/${page}`),
 }, dispatch);
 
 export default connect(

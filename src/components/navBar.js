@@ -28,6 +28,7 @@ const HeroText = styled.a`
 `;
 
 const Fab = styled.div`
+  z-index: 100;
   position: fixed;
   bottom: 5vh;
   right: 5vh;
