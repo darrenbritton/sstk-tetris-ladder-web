@@ -13,6 +13,7 @@ import Games from './containers/games';
 
 import NavBar from './components/navBar';
 import SnackBar from './components/snackBar';
+import PlayDialog from './components/playDialog';
 
 const loggedInOnlyPaths = [
   'leaderboard',
@@ -69,6 +70,7 @@ class App extends Component {
           <Route path="/login" component={() => { window.location = `//${constants.serverUrl}/auth/google`; }} />
           <Route path="/logout" component={() => { window.location = `//${constants.serverUrl}/logout`; }} />
         </main>
+        <PlayDialog/>
         <SnackBar/>
       </div>
     );

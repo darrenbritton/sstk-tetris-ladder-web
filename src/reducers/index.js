@@ -7,6 +7,7 @@ import challengesReducer from './challenges-reducer';
 import notificationsReducer from './notifications-reducer';
 import displayReducer from './display-reducer';
 import gamesReducer from './games-reducer';
+import playingReducer from './playing-reducer';
 
 export default combineReducers({
   routing: routerReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   player: playerReducer,
   notifications: notificationsReducer,
   display: displayReducer,
+  playing: playingReducer
 });

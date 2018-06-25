@@ -61,7 +61,7 @@ class Leaderboard extends Component {
                     return (
                       <TableRow key={p._id}>
                         <TableCell padding='dense'>
-                          <Avatar alt={p.username} src={p.photo} />
+                          <Avatar src={p.photo} />
                         </TableCell>
                         <TableCell padding='dense'>
                           {p.username}

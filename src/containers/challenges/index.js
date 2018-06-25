@@ -63,7 +63,7 @@ class Challenges extends Component {
                 {this.props.challenges.received.map(c => {
                   return (
                     <ListItem key={c._id}>
-                      <Avatar alt={c.challenger.username} src={c.challenger.photo} />
+                      <Avatar src={c.challenger.photo} />
                       <ListItemText primary={c.challenger.username} />
                       <ListItemSecondaryAction>
                         <StyledButton size="small" variant="contained" color="primary" onClick={() => this.acceptChallenge(c._id)}>
@@ -88,7 +88,7 @@ class Challenges extends Component {
               {this.props.challenges.sent.map(c => {
                 return (
                   <ListItem key={c._id}>
-                    <Avatar alt={c.opponent.username} src={c.opponent.photo} />
+                    <Avatar src={c.opponent.photo} />
                     <ListItemText primary={c.opponent.username} />
                     <ListItemSecondaryAction>
                       <StyledChip label="Pending Response" />

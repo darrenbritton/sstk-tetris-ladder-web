@@ -15,8 +15,9 @@ import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
-import { player } from '../../actions';
+import { player, display, game } from '../../actions';
 
 const Root = styled(Flex)`
   width: 100%;
@@ -35,6 +36,10 @@ const StyledTypography = styled(Typography)`
   color: #fff  !important;
 `;
 
+const StyledButton = styled(Button)`
+  margin-right: 10px !important;
+`;
+
 const UserTitle = styled.p`
   display: inline-block;
   vertical-align: bottom;
@@ -49,7 +54,13 @@ class Leaderboard extends Component {
     return this.props.leaderboard.find(player => id === player._id);
   };
 
+  initiateGame = (id) => {
+    this.props.togglePlayDialog();
+    this.props.initiate({id});
+  };
+
   render() {
+    const { player, games } =this.props;
     return (
       <Root flexDirection='column'>
         <Box m="auto" mt="15vh">
@@ -67,24 +78,35 @@ class Leaderboard extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.props.games.pending.map(g => {
+                {games.pending.map(g => {
                   const challenger = this.findPlayer(g.challenger);
                   const opponent = this.findPlayer(g.opponent);
                   return (
                     <TableRow key={g._id}>
                       <TableCell padding='dense'>
-                        <StyledAvatar alt={challenger.username} src={challenger.photo} />
+                        <StyledAvatar src={challenger.photo} />
                         <UserTitle>{challenger.username}</UserTitle>
                       </TableCell>
                       <TableCell padding='dense'>
-                        <StyledAvatar alt={opponent.username} src={opponent.photo} />
+                        <StyledAvatar src={opponent.photo} />
                         <UserTitle>{opponent.username}</UserTitle>
                       </TableCell>
                       <TableCell padding='dense'>
                         <TimeAgo date={g.created_at} />
                       </TableCell>
                       <TableCell padding='dense'>
-                        {g.inProgress ? <StyledChip label='In Progress'/> : <StyledChip label='Waiting For Players...'/> }
+                        {(challenger._id === player.id || opponent._id === player.id) && !g.inProgress ?
+                          <StyledButton size="small" variant="contained" color="primary" onClick={() => this.initiateGame(g._id)}>
+                            Play
+                          </StyledButton>
+                          : (challenger._id === player.id || opponent._id === player.id) && g.inProgress ?
+                            <StyledButton size="small" variant="contained" color="primary" onClick={() => this.props.togglePlayDialog()}>
+                              Continue
+                            </StyledButton>
+                          : g.inProgress ?
+                            <StyledChip label='In Progress'/>
+                            : <StyledChip label='Waiting For Players...'/>
+                        }
                       </TableCell>
                     </TableRow>
                   );
@@ -103,29 +125,29 @@ class Leaderboard extends Component {
                 <TableRow>
                   <TableCell padding='dense'>Winner</TableCell>
                   <TableCell padding='dense'>Loser</TableCell>
+                  <TableCell padding='dense'>Time</TableCell>
                   <TableCell padding='dense'>Ranking Delta</TableCell>
-                  <TableCell padding='dense'>State</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.props.games.recent.map(g => {
-                  const challenger = this.findPlayer(g.challenger);
-                  const opponent = this.findPlayer(g.opponent);
+                {games.recent.map(g => {
+                  const winner = this.findPlayer(g.winner);
+                  const loser = this.findPlayer(g.winner === g.challenger ? g.opponent : g.challenger);
                   return (
                     <TableRow key={g._id}>
                       <TableCell padding='dense'>
-                        <StyledAvatar alt={challenger.username} src={challenger.photo} />
-                        <UserTitle>{challenger.username}</UserTitle>
+                        <StyledAvatar src={winner.photo} />
+                        <UserTitle>{winner.username}</UserTitle>
                       </TableCell>
                       <TableCell padding='dense'>
-                        <StyledAvatar alt={opponent.username} src={opponent.photo} />
-                        <UserTitle>{opponent.username}</UserTitle>
+                        <StyledAvatar src={loser.photo} />
+                        <UserTitle>{loser.username}</UserTitle>
                       </TableCell>
                       <TableCell padding='dense'>
                         <TimeAgo date={g.created_at} />
                       </TableCell>
                       <TableCell padding='dense'>
-                        {g.inProgress ? <StyledChip label='In Progress'/> : <StyledChip label='Waiting For Players...'/> }
+                        {Math.abs(winner.rank - loser.rank)}
                       </TableCell>
                     </TableRow>
                   );
@@ -141,11 +163,14 @@ class Leaderboard extends Component {
 
 const mapStateToProps = state => ({
   games: state.games,
-  leaderboard: state.leaderboard
+  leaderboard: state.leaderboard,
+  player: state.player
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  challenge: player.challenge
+  challenge: player.challenge,
+  togglePlayDialog: display.togglePlayDialog,
+  initiate: game.initiate
 }, dispatch);
 
 export default connect(
