@@ -31,7 +31,7 @@ jobs:
       - persist_to_workspace:
           root: /workspace
           paths:
-            - public
+            - build
             - package.json
             - .git
   deploy:
