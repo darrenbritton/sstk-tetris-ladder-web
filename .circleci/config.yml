@@ -22,7 +22,7 @@ jobs:
           command: cp build/index.html build/200.html
       - run:
           name: copy ci config
-          command: cp -r .circleci/ ./public/.circleci/
+          command: cp -r .circleci/ ./build/.circleci/
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
