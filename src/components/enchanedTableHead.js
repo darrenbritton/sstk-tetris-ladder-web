@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 class EnhancedTableHead extends React.Component {
-  createSortHandler = property => event => {
+  createSortHandler = (property) => (event) => {
     this.props.onRequestSort(event, property);
   };
 
@@ -18,15 +18,15 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          {this.props.columns.map(column => {
-            return (
-              <TableCell
-                key={column.id}
-                numeric={column.numeric}
-                padding='dense'
-                sortDirection={orderBy === column.id ? order : false}
-              >
-                { column.sortable &&
+          {this.props.columns.map((column) => (
+            <TableCell
+              key={column.id}
+              numeric={column.numeric}
+              padding="dense"
+              sortDirection={orderBy === column.id ? order : false}
+            >
+              { column.sortable
+                  && (
                   <Tooltip
                     title="Sort"
                     placement={column.numeric ? 'bottom-end' : 'bottom-start'}
@@ -40,11 +40,10 @@ class EnhancedTableHead extends React.Component {
                       {column.label}
                     </TableSortLabel>
                   </Tooltip>
-                }
-                { !column.sortable ? column.label : ''}
-              </TableCell>
-            );
-          }, this)}
+                  )}
+              { !column.sortable ? column.label : ''}
+            </TableCell>
+          ), this)}
         </TableRow>
       </TableHead>
     );
@@ -54,10 +53,8 @@ class EnhancedTableHead extends React.Component {
 EnhancedTableHead.propTypes = {
   columns: PropTypes.array.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
 };
 
 export default EnhancedTableHead;

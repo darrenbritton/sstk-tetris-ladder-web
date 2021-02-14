@@ -2,8 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { lighten } from 'styled-components';
+import {
+  Toolbar, Tooltip, Typography, IconButton, DeleteIcon, FilterListIcon,
+} from '@material-ui/core';
 
-const toolbarStyles = theme => ({
+const toolbarStyles = (theme) => ({
   root: {
     paddingRight: theme.spacing.unit,
   },
@@ -28,7 +32,7 @@ const toolbarStyles = theme => ({
   },
 });
 
-let EnhancedTableToolbar = props => {
+const EnhancedTableToolbar = (props) => {
   const { numSelected, classes } = props;
 
   return (
@@ -40,7 +44,9 @@ let EnhancedTableToolbar = props => {
       <div className={classes.title}>
         {numSelected > 0 ? (
           <Typography color="inherit" variant="subheading">
-            {numSelected} selected
+            {numSelected}
+            {' '}
+            selected
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
@@ -73,6 +79,4 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
-
-export default EnhancedTableToolbar;
+export default withStyles(toolbarStyles)(EnhancedTableToolbar);

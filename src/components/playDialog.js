@@ -30,35 +30,32 @@ function Transition(props) {
 }
 
 class PlayDialog extends React.Component {
-
-  findPlayer = (id) => {
-    return this.props.leaderboard.find(player => id === player._id);
-  };
+  findPlayer = (id) => this.props.leaderboard.find((player) => id === player._id);
 
   accept = (id) => {
-    this.props.accept({id});
+    this.props.accept({ id });
   };
 
   reject = (id) => {
-    this.props.reject({id});
+    this.props.reject({ id });
     this.props.togglePlayDialog();
   };
 
   won = (id) => {
-    this.props.won({id});
+    this.props.won({ id });
   };
 
   lost = (id) => {
-    this.props.lost({id});
+    this.props.lost({ id });
   };
 
   confirm = (id) => {
-    this.props.confirm({id});
+    this.props.confirm({ id });
     this.props.togglePlayDialog();
   };
 
   contest = (id) => {
-    this.props.contest({id});
+    this.props.contest({ id });
     this.props.togglePlayDialog();
   };
 
@@ -72,12 +69,13 @@ class PlayDialog extends React.Component {
         aria-describedby="alert-dialog-slide-description"
       >
         {
-          this.props.playing._id && !this.props.playing.inProgress &&
+          this.props.playing._id && !this.props.playing.inProgress
+          && (
           <div>
             <DialogTitle id="alert-dialog-slide-title">
-              {`${this.props.playing.challenger === this.props.player.id ?
-                this.findPlayer(this.props.playing.opponent).username :
-                this.findPlayer(this.props.playing.challenger).username} would like to start your game`}
+              {`${this.props.playing.challenger === this.props.player.id
+                ? this.findPlayer(this.props.playing.opponent).username
+                : this.findPlayer(this.props.playing.challenger).username} would like to start your game`}
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
@@ -85,23 +83,25 @@ class PlayDialog extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={() =>this.accept(this.props.playing._id)} color="primary">
+              <Button onClick={() => this.accept(this.props.playing._id)} color="primary">
                 Accept
               </Button>
-              <Button onClick={() =>this.reject(this.props.playing._id)} color="primary">
+              <Button onClick={() => this.reject(this.props.playing._id)} color="primary">
                 Reject
               </Button>
             </DialogActions>
           </div>
+          )
         }
         {
-          this.props.playing.waitingForPlayer &&
+          this.props.playing.waitingForPlayer
+            && (
             <div>
               <DialogTitle id="alert-dialog-slide-title">
-              {"Waiting for opponent to accept..."}
-            </DialogTitle>
+                Waiting for opponent to accept...
+              </DialogTitle>
               <StyledDialogContent>
-                <StyledSpinner/>
+                <StyledSpinner />
               </StyledDialogContent>
               <DialogActions>
                 <Button onClick={this.props.togglePlayDialog} color="primary">
@@ -109,12 +109,14 @@ class PlayDialog extends React.Component {
                 </Button>
               </DialogActions>
             </div>
+            )
         }
         {
-          this.props.playing.inProgress && !this.props.playing.winner &&
+          this.props.playing.inProgress && !this.props.playing.winner
+          && (
           <div>
             <DialogTitle id="alert-dialog-slide-title">
-              {"Game In Progress"}
+              Game In Progress
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
@@ -122,22 +124,24 @@ class PlayDialog extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={() =>this.won(this.props.playing._id)} color="primary">
+              <Button onClick={() => this.won(this.props.playing._id)} color="primary">
                 I Won
               </Button>
-              <Button onClick={() =>this.lost(this.props.playing._id)} color="primary">
+              <Button onClick={() => this.lost(this.props.playing._id)} color="primary">
                 I Lost
               </Button>
             </DialogActions>
           </div>
+          )
         }
         {
-          this.props.playing.inProgress && this.props.playing.winner && this.props.playing.waitingForConfirmationFrom === this.props.player.id &&
+          this.props.playing.inProgress && this.props.playing.winner && this.props.playing.waitingForConfirmationFrom === this.props.player.id
+          && (
           <div>
             <DialogTitle id="alert-dialog-slide-title">
-              {`${this.props.playing.challenger === this.props.player.id ?
-                this.findPlayer(this.props.playing.opponent).username :
-                this.findPlayer(this.props.playing.challenger).username} has declared ${this.props.playing.winner === this.props.player.id ? 'you' : 'themself'} the winner`}
+              {`${this.props.playing.challenger === this.props.player.id
+                ? this.findPlayer(this.props.playing.opponent).username
+                : this.findPlayer(this.props.playing.challenger).username} has declared ${this.props.playing.winner === this.props.player.id ? 'you' : 'themself'} the winner`}
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
@@ -145,49 +149,52 @@ class PlayDialog extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={() =>this.contest(this.props.playing._id)} color="secondary">
+              <Button onClick={() => this.contest(this.props.playing._id)} color="secondary">
                 Contest
               </Button>
-              <Button onClick={() =>this.confirm(this.props.playing._id)} color="primary">
+              <Button onClick={() => this.confirm(this.props.playing._id)} color="primary">
                 Confirm
               </Button>
             </DialogActions>
           </div>
+          )
         }
         {
-          this.props.playing.inProgress && this.props.playing.winner && this.props.playing.waitingForConfirmationFrom !== this.props.player.id &&
+          this.props.playing.inProgress && this.props.playing.winner && this.props.playing.waitingForConfirmationFrom !== this.props.player.id
+          && (
           <div>
             <DialogTitle id="alert-dialog-slide-title">
-              {`waiting for opponent to confirm result`}
+              waiting for opponent to confirm result
             </DialogTitle>
             <StyledDialogContent>
               <DialogContentText id="alert-dialog-slide-description">
                 If your opponent contests the result it will nullify any ranking changes the outcome of this match would have had so don't try to cheat!
               </DialogContentText>
-              <StyledSpinner/>
+              <StyledSpinner />
             </StyledDialogContent>
           </div>
+          )
         }
       </Dialog>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   display: state.display,
   playing: state.playing,
   player: state.player,
-  leaderboard: state.leaderboard
+  leaderboard: state.leaderboard,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   togglePlayDialog: display.togglePlayDialog,
   accept: game.accept,
   reject: game.reject,
   won: game.win,
   lost: game.lose,
   confirm: game.confirm,
-  contest: game.contest
+  contest: game.contest,
 }, dispatch);
 
 export default connect(

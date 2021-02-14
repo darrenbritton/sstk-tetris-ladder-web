@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {bindActionCreators} from "redux";
+import { bindActionCreators } from 'redux';
 
 import { connect } from 'react-redux';
 import { Flex, Box } from 'grid-styled';
@@ -15,7 +15,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
-
 import { player } from '../../actions';
 
 const Root = styled(Flex)`
@@ -30,7 +29,7 @@ const StyledPaper = styled(Paper)`
 
 const StyledChip = styled(Chip)`
   margin-right: 20px;
-`
+`;
 
 const StyledTypography = styled(Typography)`
   color: #fff  !important;
@@ -40,53 +39,50 @@ const EmptyText = styled(Typography)`
   text-align: center;
   margin-top: 30px !important;
   margin-bottom: 30px !important;
-`
+`;
 
 const StyledButton = styled(Button)`
   margin-right: 10px !important;
 `;
 
-
 class Challenges extends Component {
-
   acceptChallenge = (id) => {
-    this.props.acceptChallenge({id});
+    this.props.acceptChallenge({ id });
   };
 
   rejectChallenge = (id) => {
-    this.props.rejectChallenge({id});
+    this.props.rejectChallenge({ id });
   };
 
   render() {
     return (
-      <Root flexDirection='column'>
+      <Root flexDirection="column">
         <Box m="auto" mt="15vh">
           <StyledTypography variant="display1" gutterBottom>
             Received
           </StyledTypography>
           <StyledPaper>
             <List>
-              {this.props.challenges.received.map(c => {
-                return (
-                  <ListItem key={c._id}>
-                    <Avatar src={c.challenger.photo} />
-                    <ListItemText primary={c.challenger.username} />
-                    <ListItemSecondaryAction>
-                      <StyledButton size="small" variant="contained" color="primary" onClick={() => this.acceptChallenge(c._id)}>
-                        Accept
-                      </StyledButton>
-                      <StyledButton size="small" variant="contained" color="secondary" onClick={() => this.rejectChallenge(c._id)}>
-                        Reject
-                      </StyledButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                );
-              })}
-              {this.props.challenges.received.length === 0 &&
+              {this.props.challenges.received.map((c) => (
+                <ListItem key={c._id}>
+                  <Avatar src={c.challenger.photo} />
+                  <ListItemText primary={c.challenger.username} />
+                  <ListItemSecondaryAction>
+                    <StyledButton size="small" variant="contained" color="primary" onClick={() => this.acceptChallenge(c._id)}>
+                      Accept
+                    </StyledButton>
+                    <StyledButton size="small" variant="contained" color="secondary" onClick={() => this.rejectChallenge(c._id)}>
+                      Reject
+                    </StyledButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+              {this.props.challenges.received.length === 0
+                && (
                 <EmptyText variant="body2">
                   You don't currently have any open challenges
                 </EmptyText>
-              }
+                )}
             </List>
           </StyledPaper>
         </Box>
@@ -96,22 +92,21 @@ class Challenges extends Component {
           </StyledTypography>
           <StyledPaper>
             <List>
-              {this.props.challenges.sent.map(c => {
-                return (
-                  <ListItem key={c._id}>
-                    <Avatar src={c.opponent.photo} />
-                    <ListItemText primary={c.opponent.username} />
-                    <ListItemSecondaryAction>
-                      <StyledChip label="Pending Response" />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                );
-              })}
-              {this.props.challenges.sent.length === 0 &&
+              {this.props.challenges.sent.map((c) => (
+                <ListItem key={c._id}>
+                  <Avatar src={c.opponent.photo} />
+                  <ListItemText primary={c.opponent.username} />
+                  <ListItemSecondaryAction>
+                    <StyledChip label="Pending Response" />
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+              {this.props.challenges.sent.length === 0
+                && (
                 <EmptyText variant="body2">
                   You haven't sent any challenges that are still pending
                 </EmptyText>
-              }
+                )}
             </List>
           </StyledPaper>
         </Box>
@@ -120,14 +115,14 @@ class Challenges extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  challenges: state.challenges
+const mapStateToProps = (state) => ({
+  challenges: state.challenges,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   challenge: player.challenge,
   acceptChallenge: player.acceptChallenge,
-  rejectChallenge: player.rejectChallenge
+  rejectChallenge: player.rejectChallenge,
 }, dispatch);
 
 export default connect(

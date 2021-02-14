@@ -1,4 +1,4 @@
-import { TOGGLE_PLAYER_DRAWER, TOGGLE_PLAY_DIALOG, DISPLAY_GAME_PROMPT } from "../actions";
+import { TOGGLE_PLAYER_DRAWER, TOGGLE_PLAY_DIALOG, DISPLAY_GAME_PROMPT } from '../actions';
 
 export default function (state = { playerDrawer: false, breakDrawer: false, playDialog: false }, action) {
   switch (action.type) {

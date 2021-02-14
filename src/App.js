@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-import { push } from 'react-router-redux';
+import { Route, Switch } from 'react-router-dom';
+import { push } from 'connected-react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -18,9 +18,8 @@ import PlayDialog from './components/playDialog';
 const loggedInOnlyPaths = [
   'leaderboard',
   'challenges',
-  'games'
+  'games',
 ];
-
 
 class App extends Component {
   constructor(props) {
@@ -32,16 +31,15 @@ class App extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (!!nextProps.player.id !== prevState.loggedIn) {
-      if (!prevState.loggedIn && !loggedInOnlyPaths.find(path => nextProps.location.pathname.includes(path))) {
+      if (!prevState.loggedIn && !loggedInOnlyPaths.find((path) => nextProps.location.pathname.includes(path))) {
         nextProps.loggedIn();
-
       }
       if (!nextProps.player.id) {
         nextProps.loggedOut();
         return { loggedIn: false };
       }
       return { loggedIn: !prevState.loggedIn };
-    } else if (Object.keys(nextProps.player).length > 0) {
+    } if (Object.keys(nextProps.player).length > 0) {
       return { loggedIn: true };
     }
     return prevState;
@@ -55,35 +53,35 @@ class App extends Component {
         this.props.loggedOut();
         location.reload(); // eslint-disable-line
       }
-    },600);
+    }, 600);
   }
 
   render() {
     return (
       <div>
         {this.state.loggedIn ? <div><NavBar /></div> : null}
-        <main>
+        <Switch>
           <Route exact path="/leaderboard" component={Home} />
           <Route exact path="/logged-out" component={LoggedOut} />
           <Route exact path="/challenges" component={Challenges} />
           <Route exact path="/games" component={Games} />
           <Route path="/login" component={() => { window.location = `//${constants.serverUrl}/auth/google`; }} />
           <Route path="/logout" component={() => { window.location = `//${constants.serverUrl}/logout`; }} />
-        </main>
-        <PlayDialog/>
-        <SnackBar/>
+        </Switch>
+        <PlayDialog />
+        <SnackBar />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   game: state.game,
   player: state.player,
-  location: state.routing.location,
+  location: state.router.location,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   loggedOut: () => push('/logged-out'),
   loggedIn: () => push('/leaderboard'),
 }, dispatch);

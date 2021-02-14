@@ -1,17 +1,15 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { routerMiddleware } from 'react-router-redux';
+import { routerMiddleware } from 'connected-react-router';
 import thunk from 'redux-thunk';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import 'redux-devtools-extension';
 
 import constants from '../constants';
 
-import rootReducer from '../reducers';
+import createRootReducer from '../reducers';
 import actions from '../actions';
 
-export const history = createHistory();
-
-export let primus = {};
+export const history = createBrowserHistory();
 
 const initialState = {};
 const enhancers = [];
@@ -34,21 +32,19 @@ const composedEnhancers = compose(
 );
 
 const store = createStore(
-  rootReducer,
+  createRootReducer(history), // root reducer with router state
   initialState,
   composedEnhancers,
 );
 
-if (window.Primus) {
-  primus = new window.Primus(`//${constants.serverUrl}`);
-  primus.on('data', function primusData(data) {
-    if (data.action) {
-      const actionGroup = data.action.split('.');
-      if (actions[actionGroup[0]][actionGroup[1]]) {
-        store.dispatch(actions[actionGroup[0]][actionGroup[1]].call(this, data.payload || {}));
-      }
+export const primus = new window.Primus(`//${constants.serverUrl}`);
+primus.on('data', function primusData(data) {
+  if (data.action) {
+    const actionGroup = data.action.split('.');
+    if (actions[actionGroup[0]][actionGroup[1]]) {
+      store.dispatch(actions[actionGroup[0]][actionGroup[1]].call(this, data.payload || {}));
     }
-  });
-}
+  }
+});
 
 export default store;

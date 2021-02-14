@@ -36,55 +36,58 @@ const CardBody = styled.div`
     margin-right: 2%;
   }
   
-  ${props => props.black && css`
+  ${(props) => props.black && css`
     cursor: not-allowed;
     background-color: #000000;
     color: #ffffff;
     flex-shrink: 0;
   `}
   
-  ${props => props.selected && css`
+  ${(props) => props.selected && css`
     background-color: #b9b9b9;
     button {
       visibility: visible;
     }
   `}
   
-    ${props => props.played && css`
+    ${(props) => props.played && css`
     background-color: #b9b9b9;
     cursor: not-allowed;
   `}
 `;
-
 
 class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selected: false,
-      played: false
+      played: false,
     };
   }
+
   toggle = () => {
-    this.setState({selected: !this.state.selected});
+    this.setState({ selected: !this.state.selected });
   }
+
   select = () => {
     if (!this.state.played) {
       this.toggle();
     }
   }
+
   submit = () => {
     this.props.submit(this.props.index);
-    this.setState({played: true});
+    this.setState({ played: true });
   }
+
   render() {
     return (
       <CardBody played={this.state.played} selected={this.state.selected} {...this.props} onClick={() => this.select()}>
         <span dangerouslySetInnerHTML={{ __html: (Array.isArray(this.props.text) ? this.props.text.join('</br></br>') : this.props.text) }} />
-        <Button variant="raised" onClick={() => this.toggle()} color='secondary'>
+        <Button variant="raised" onClick={() => this.toggle()} color="secondary">
           Cancel
         </Button>
-        <Button variant="raised" onClick={() => this.props.submit ? this.submit() : undefined} color='primary'>
+        <Button variant="raised" onClick={() => (this.props.submit ? this.submit() : undefined)} color="primary">
           Submit
         </Button>
       </CardBody>

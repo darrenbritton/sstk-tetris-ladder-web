@@ -1,4 +1,4 @@
-import { PERSIST_PLAYER } from "../actions";
+import { PERSIST_PLAYER } from '../actions';
 
 export default function (state = {}, action) {
   switch (action.type) {

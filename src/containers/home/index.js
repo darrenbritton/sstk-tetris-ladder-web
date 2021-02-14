@@ -5,7 +5,7 @@ import Leaderboard from '../../components/leaderboard';
 class Home extends Component {
   render() {
     return (
-      <Leaderboard/>
+      <Leaderboard />
     );
   }
 }

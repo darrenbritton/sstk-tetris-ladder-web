@@ -1,15 +1,15 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {push} from "react-router-redux";
+import { push } from 'connected-react-router';
 import { withStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { notify } from "../actions";
+import { notify } from '../actions';
 
-const styles = theme => ({
+const styles = (theme) => ({
   close: {
     width: theme.spacing.unit * 4,
     height: theme.spacing.unit * 4,
@@ -17,20 +17,23 @@ const styles = theme => ({
 });
 
 class SnackBar extends React.Component {
-  state = {
-    open: false,
-    messageInfo: {},
-    queue: []
-  };
+  constructor() {
+    super();
+    this.state = {
+      open: false,
+      messageInfo: {},
+      queue: [],
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.notifications.length > 0) {
-      this.setState({queue: this.state.queue.concat(nextProps.notifications)}, () => {
+    if (nextProps.notifications.length > 0) {
+      this.setState({ queue: this.state.queue.concat(nextProps.notifications) }, () => {
         this.props.notificationClear();
         if (this.state.open) {
           // immediately begin dismissing current message
           // to start showing new one
-          this.setState({open: false});
+          this.setState({ open: false });
         } else {
           this.processQueue();
         }
@@ -58,14 +61,11 @@ class SnackBar extends React.Component {
   handleAction = (action) => {
     switch (action) {
       case 'challenge.view':
-        this.props.changePage('challenges');
-        break;
+        return this.props.changePage('challenges');
       case 'game.view':
-        this.props.changePage('games');
-        break;
+        return this.props.changePage('games');
       case 'leaderboard.view':
-        this.props.changePage('leaderboard');
-        break;
+        return this.props.changePage('leaderboard');
       default:
         return true;
     }
@@ -113,11 +113,11 @@ class SnackBar extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   notifications: state.notifications.generic,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   notificationClear: notify.clear,
   changePage: (page) => push(`/${page}`),
 }, dispatch);

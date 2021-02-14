@@ -26,31 +26,31 @@ export const GAME_CONTEST = 'game-contest';
 export const GAME_CONFIRM = 'game-confirm';
 
 export const persist = {
-  player: payload => (dispatch) => {
+  player: (payload) => (dispatch) => {
     dispatch({
       type: PERSIST_PLAYER,
       payload,
     });
   },
-  leaderboard: payload => (dispatch) => {
+  leaderboard: (payload) => (dispatch) => {
     dispatch({
       type: PERSIST_LEADERBOARD,
       payload,
     });
   },
-  challenges: payload => (dispatch) => {
+  challenges: (payload) => (dispatch) => {
     dispatch({
       type: PERSIST_CHALLENGES,
       payload,
     });
   },
-  games: payload => (dispatch) => {
+  games: (payload) => (dispatch) => {
     dispatch({
       type: PERSIST_GAMES,
       payload,
     });
   },
-  playing: payload => (dispatch) => {
+  playing: (payload) => (dispatch) => {
     dispatch({
       type: PERSIST_PLAYING,
       payload,
@@ -59,13 +59,13 @@ export const persist = {
 };
 
 export const notify = {
-  generic: payload => (dispatch) => {
+  generic: (payload) => (dispatch) => {
     dispatch({
       type: NOTIFY_GENERIC,
       payload,
     });
   },
-  clear: payload => (dispatch) => {
+  clear: (payload) => (dispatch) => {
     dispatch({
       type: NOTIFY_CLEAR,
       payload,
@@ -74,7 +74,7 @@ export const notify = {
 };
 
 export const player = {
-  challenge: payload => (dispatch) => {
+  challenge: (payload) => (dispatch) => {
     primus.write({
       type: 'player.challenge',
       payload,
@@ -84,7 +84,7 @@ export const player = {
       payload,
     });
   },
-  acceptChallenge: payload => (dispatch) => {
+  acceptChallenge: (payload) => (dispatch) => {
     primus.write({
       type: 'challenge.accept',
       payload,
@@ -94,7 +94,7 @@ export const player = {
       payload,
     });
   },
-  rejectChallenge: payload => (dispatch) => {
+  rejectChallenge: (payload) => (dispatch) => {
     primus.write({
       type: 'challenge.reject',
       payload,
@@ -119,16 +119,16 @@ export const display = {
       payload: {},
     });
   },
-  gamePrompt: payload => (dispatch) => {
+  gamePrompt: (payload) => (dispatch) => {
     dispatch({
       type: DISPLAY_GAME_PROMPT,
-      payload: payload,
+      payload,
     });
-  }
+  },
 };
 
 export const game = {
-  initiate: payload => (dispatch) => {
+  initiate: (payload) => (dispatch) => {
     primus.write({
       type: 'game.initiate',
       payload,
@@ -138,7 +138,7 @@ export const game = {
       payload,
     });
   },
-  reject: payload => (dispatch) => {
+  reject: (payload) => (dispatch) => {
     primus.write({
       type: 'game.reject',
       payload,
@@ -148,7 +148,7 @@ export const game = {
       payload,
     });
   },
-  accept: payload => (dispatch) => {
+  accept: (payload) => (dispatch) => {
     primus.write({
       type: 'game.accept',
       payload,
@@ -158,7 +158,7 @@ export const game = {
       payload,
     });
   },
-  win: payload => (dispatch) => {
+  win: (payload) => (dispatch) => {
     primus.write({
       type: 'game.win',
       payload,
@@ -168,7 +168,7 @@ export const game = {
       payload,
     });
   },
-  lose: payload => (dispatch) => {
+  lose: (payload) => (dispatch) => {
     primus.write({
       type: 'game.lose',
       payload,
@@ -178,7 +178,7 @@ export const game = {
       payload,
     });
   },
-  contest: payload => (dispatch) => {
+  contest: (payload) => (dispatch) => {
     primus.write({
       type: 'game.contest',
       payload,
@@ -188,7 +188,7 @@ export const game = {
       payload,
     });
   },
-  confirm: payload => (dispatch) => {
+  confirm: (payload) => (dispatch) => {
     primus.write({
       type: 'game.confirm',
       payload,
@@ -205,5 +205,5 @@ export default {
   notify,
   display,
   player,
-  game
+  game,
 };

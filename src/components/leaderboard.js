@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {bindActionCreators} from "redux";
+import { bindActionCreators } from 'redux';
 
 import { connect } from 'react-redux';
 import { Flex, Box } from 'grid-styled';
@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import TablePagination from '@material-ui/core/TablePagination'
+import TablePagination from '@material-ui/core/TablePagination';
 
 import EnhancedTableHead from './enchanedTableHead';
 
@@ -33,10 +33,18 @@ const Root = styled(Flex)`
 `;
 
 const columnData = [
-  { id: 'avatar', numeric: false, sortable: false, label: 'Avatar' },
-  { id: 'username', numeric: false, sortable: true, label: 'Username' },
-  { id: 'rank', numeric: true, sortable: true, label: 'Rank (Elo)' },
-  { id: 'gamesPlayed', numeric: true, sortable: true, label: 'Games Played' },
+  {
+    id: 'avatar', numeric: false, sortable: false, label: 'Avatar',
+  },
+  {
+    id: 'username', numeric: false, sortable: true, label: 'Username',
+  },
+  {
+    id: 'rank', numeric: true, sortable: true, label: 'Rank (Elo)',
+  },
+  {
+    id: 'gamesPlayed', numeric: true, sortable: true, label: 'Games Played',
+  },
 ];
 
 function getSorting(order, orderBy) {
@@ -58,7 +66,7 @@ class Leaderboard extends Component {
     };
   }
 
-  handleClick = event => {
+  handleClick = (event) => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
@@ -68,7 +76,7 @@ class Leaderboard extends Component {
 
   challenge = (id) => {
     this.handleClose();
-    this.props.challenge({ opponent: id});
+    this.props.challenge({ opponent: id });
   };
 
   handleRequestSort = (event, property) => {
@@ -82,82 +90,73 @@ class Leaderboard extends Component {
     this.setState({ order, orderBy });
   };
 
-  handleSelectAllClick = (event, checked) => {
-    if (checked) {
-      this.setState({ selected: this.state.data.map(n => n.id) });
-      return;
-    }
-    this.setState({ selected: [] });
-  };
-
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value });
   };
 
   render() {
-    const { order, orderBy, rowsPerPage, page } = this.state;
+    const {
+      order, orderBy, rowsPerPage, page,
+    } = this.state;
 
     return (
-      <Root flexDirection='column'>
+      <Root flexDirection="column">
         <Box m="auto" mt="15vh">
           <Paper>
-              <Table>
-                <EnhancedTableHead
-                  columns={columnData}
-                  order={order}
-                  orderBy={orderBy}
-                  onSelectAllClick={this.handleSelectAllClick}
-                  onRequestSort={this.handleRequestSort}
-                  rowCount={this.props.leaderboard.length}
-                />
-                <TableBody>
-                  {this.props.leaderboard
-                    .sort(getSorting(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map(p => {
-                    return (
-                      <TableRow key={p._id}>
-                        <TableCell padding='dense'>
-                          <Avatar src={p.photo} />
-                        </TableCell>
-                        <TableCell padding='dense'>
-                          {p.username}
-                        </TableCell>
-                        <TableCell numeric padding='dense'>{p.rank}</TableCell>
-                        <TableCell numeric padding='dense'>{p.gamesPlayed}</TableCell>
-                        <TableCell padding='none'>
-                            <IconButton
-                              aria-label="More"
-                              aria-owns={this.state.anchorEl ? 'long-menu' : null}
-                              aria-haspopup="true"
-                              data-id={p._id}
-                              onClick={this.handleClick}
-                            >
-                              <MoreVertIcon />
-                            </IconButton>
-                            <Menu
-                              id="long-menu"
-                              anchorEl={this.state.anchorEl}
-                              open={Boolean(this.state.anchorEl)}
-                              onClose={this.handleClose}
-                            >
-                              <MenuItem onClick={() => this.challenge(this.state.anchorEl.dataset.id)}>
-                                Challenge
-                              </MenuItem>
-                              <MenuItem onClick={this.handleClose}>
-                                View Stats
-                              </MenuItem>
-                            </Menu>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
+            <Table>
+              <EnhancedTableHead
+                columns={columnData}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={this.handleRequestSort}
+                rowCount={this.props.leaderboard.length}
+              />
+              <TableBody>
+                {this.props.leaderboard
+                  .sort(getSorting(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((p) => (
+                    <TableRow key={p._id}>
+                      <TableCell padding="dense">
+                        <Avatar src={p.photo} />
+                      </TableCell>
+                      <TableCell padding="dense">
+                        {p.username}
+                      </TableCell>
+                      <TableCell numeric padding="dense">{p.rank}</TableCell>
+                      <TableCell numeric padding="dense">{p.gamesPlayed}</TableCell>
+                      <TableCell padding="none">
+                        <IconButton
+                          aria-label="More"
+                          aria-owns={this.state.anchorEl ? 'long-menu' : null}
+                          aria-haspopup="true"
+                          data-id={p._id}
+                          onClick={this.handleClick}
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                          id="long-menu"
+                          anchorEl={this.state.anchorEl}
+                          open={Boolean(this.state.anchorEl)}
+                          onClose={this.handleClose}
+                        >
+                          <MenuItem onClick={() => this.challenge(this.state.anchorEl.dataset.id)}>
+                            Challenge
+                          </MenuItem>
+                          <MenuItem onClick={this.handleClose}>
+                            View Stats
+                          </MenuItem>
+                        </Menu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
             <TablePagination
               component={Box}
               count={this.props.leaderboard.length}
@@ -179,12 +178,12 @@ class Leaderboard extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  leaderboard: state.leaderboard
+const mapStateToProps = (state) => ({
+  leaderboard: state.leaderboard,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  challenge: player.challenge
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  challenge: player.challenge,
 }, dispatch);
 
 export default connect(

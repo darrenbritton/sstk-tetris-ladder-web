@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Flex, Box } from 'grid-styled';
 
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 
 const Wrapper = styled.div`
   position: absolute;
@@ -38,11 +38,17 @@ class LoggedOut extends Component {
       <Wrapper>
         <Flex flexDirection="column">
           <TiltedBox m="auto" mt="25vh">
-            <HeroText>Shutterstock<br/>Tetris</HeroText>
+            <HeroText>
+              Shutterstock
+              <br />
+              Tetris
+            </HeroText>
           </TiltedBox>
           <Box m="auto" mt="3vh">
-            <Button href="/login" variant="raised" color="primary">
-              Login With <ButtonIcon src="/googleLogo.svg" />
+            <Button href="/login" variant="contained" color="primary">
+              Login With
+              {' '}
+              <ButtonIcon src="/googleLogo.svg" />
             </Button>
           </Box>
         </Flex>

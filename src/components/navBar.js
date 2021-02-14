@@ -6,8 +6,7 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Flex, Box } from 'grid-styled';
-import { display } from '../actions';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import MenuIcon from '@material-ui/icons/Menu';
 import StarIcon from '@material-ui/icons/Stars';
 import ChallengeIcon from '@material-ui/icons/ChatBubble';
@@ -19,6 +18,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { display } from '../actions';
 
 const HeroText = styled.a`
     font-family: 'Montserrat';
@@ -32,14 +32,17 @@ const Fab = styled.div`
   position: fixed;
   bottom: 5vh;
   right: 5vh;
-`
+`;
 
-const pageLinks = [{label: 'Leaderboard', icon: (<StarIcon/>)}, {label:'Challenges', icon: (<ChallengeIcon/>) }, {label: 'Games', icon: (<GameIcon/>) }];
+const pageLinks = [{ label: 'Leaderboard', icon: (<StarIcon />) }, { label: 'Challenges', icon: (<ChallengeIcon />) }, { label: 'Games', icon: (<GameIcon />) }];
 
 class NavBar extends Component {
-  state = {
-    drawer: false
-  };
+  constructor() {
+    super();
+    this.state = {
+      drawer: false,
+    };
+  }
 
   toggleDrawer = (open) => () => {
     this.setState({
@@ -47,23 +50,21 @@ class NavBar extends Component {
     });
   };
 
-  pageListFragments = () => {
-    return pageLinks.map(link =>
-      <ListItem key={link.label} button onClick={() => this.props.changePage(link.label.toLowerCase())}>
-        <ListItemIcon>
-          {link.icon}
-        </ListItemIcon>
-        <ListItemText primary={link.label} />
-      </ListItem>
-    );
-  };
+  pageListFragments = () => pageLinks.map((link) => (
+    <ListItem key={link.label} button onClick={() => this.props.changePage(link.label.toLowerCase())}>
+      <ListItemIcon>
+        {link.icon}
+      </ListItemIcon>
+      <ListItemText primary={link.label} />
+    </ListItem>
+  ));
 
   render() {
     return (
       <Flex>
         <AppBar position="static">
           <Toolbar>
-            <Flex justifyContent='space-between'>
+            <Flex justifyContent="space-between">
               <Box>
                 <HeroText href="/">SSTK Tetris</HeroText>
               </Box>
@@ -72,13 +73,14 @@ class NavBar extends Component {
         </AppBar>
         <Fab>
           <Button
-            variant="fab" color="primary"
+            variant="fab"
+            color="primary"
             aria-label="More"
             aria-owns={this.state.anchorEl ? 'long-menu' : null}
             aria-haspopup="true"
             onClick={this.toggleDrawer(true)}
           >
-            <MenuIcon/>
+            <MenuIcon />
           </Button>
           <Drawer
             anchor="bottom"
@@ -94,7 +96,7 @@ class NavBar extends Component {
               <List>
                 {this.pageListFragments()}
               </List>
-              <Divider/>
+              <Divider />
               <List>
                 <ListItem button onClick={() => this.props.changePage('logout')}>
                   <ListItemIcon>
@@ -111,12 +113,12 @@ class NavBar extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   player: state.player,
   display: state.display,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   changePage: (page) => push(`/${page}`),
   togglePlayerDrawer: display.togglePlayerDrawer,
 }, dispatch);
